@@ -1,10 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Button, Image } from 'react-native';
 
 export default function App() {
+
+  const [img, setImg] = useState('')
+
+  const getCat = () => {
+    fetch('https://aws.random.cat/meow')
+      .then((res) => {
+        return res.json()
+      }).then((data) => {
+        setImg(data.file)
+      })
+  }
+
+  useEffect(() => {
+    getCat
+  }, [])
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Image source={{uri : img}} style={{width : "80%", height : "65%", marginBottom : "5%", borderRadius : 10}} />
+      <Button
+        onPress={getCat}
+        title="new cat"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
+      />
       <StatusBar style="auto" />
     </View>
   );
